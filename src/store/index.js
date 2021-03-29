@@ -8,6 +8,90 @@ export default new Vuex.Store({
   state: {
     status: '',
     token: localStorage.getItem('token') || '',
+    nautobot_data: [
+      {
+        title: 'Organization',
+        icon: "mdi-office-building",
+        items: [
+          {
+            title: 'Sites',
+            subtitle: 'Geographic locations',
+            endpoint: "/api/dcim/sites/",
+            link: "/dcim/sites",
+            total: 0,
+            display: false
+          },
+          {
+            title: 'Tenants',
+            subtitle: 'Customers or departments',
+            endpoint: "/api/tenancy/tenants/",
+            total: 0,
+            display: false
+          },
+        ]
+      },
+      {
+        title: 'DCIM',
+        icon: "mdi-router",
+        items: [
+          {
+            title: 'Racks',
+            subtitle: 'Equipment racks, optionally organized by group',
+            endpoint: "/api/dcim/racks/",
+            total: 0,
+            display: false
+          },
+          {
+            title: 'Devices',
+            subtitle: 'Rack-mounted network equipment, servers, and other devices',
+            endpoint: "/api/dcim/devices/",
+            total: 0,
+            display: false
+          },
+        ]
+      },
+      {
+        title: 'IPAM',
+        icon: 'mdi-database',
+        items: [
+          {
+            title: 'VRFs',
+            subtitle: 'Virtual routing and forwarding tables',
+            endpoint: "/api/ipam/vrfs/",
+            total: 0,
+            display: false
+          },
+          {
+            title: 'IP Addresses',
+            subtitle: 'Individual IPv4 and IPv6 addresses',
+            endpoint: "/api/ipam/ip-addresses/",
+            link: "/ipam/ip-addresses",
+            total: 0,
+            display: false
+          },
+        ]
+      },
+      {
+        title: 'Circuits',
+        icon: 'mdi-cable-data',
+        items: [
+          {
+            title: 'Providers',
+            subtitle: 'Organizations which provide circuit connectivity',
+            endpoint: '/api/circuits/providers/',
+            total: 0,
+            display: false
+          },
+          {
+            title: 'Circuits',
+            subtitle: 'Communication links for Internet transit, peering, and other services',
+            endpoint: '/api/circuits/circuits/',
+            total: 0,
+            display: false
+          },
+        ]
+      }
+    ]
   },
   mutations: {
     auth_request(state){

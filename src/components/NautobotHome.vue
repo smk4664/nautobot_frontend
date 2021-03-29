@@ -40,95 +40,16 @@
 
   export default {
     name: 'NautobotHome',
-
     data: () => ({
-      cards: [
-        {
-          title: 'Organization',
-          items: [
-            {
-              title: 'Sites',
-              subtitle: 'Geographic locations',
-              endpoint: "/api/dcim/sites/?limit=1",
-              display: false,
-              link: "/dcim/sites",
-              total: 0
-            },
-            {
-              title: 'Tenants',
-              subtitle: 'Customers or departments',
-              endpoint: "/api/tenancy/tenants/?limit=1",
-              display: false,
-              total: 0
-            },
-          ]
-        },
-        {
-          title: 'DCIM',
-          items: [
-            {
-              title: 'Racks',
-              subtitle: 'Equipment racks, optionally organized by group',
-              endpoint: "/api/dcim/racks/?limit=1",
-              display: false,
-              total: 0
-            },
-            {
-              title: 'Devices',
-              subtitle: 'Rack-mounted network equipment, servers, and other devices',
-              endpoint: "/api/dcim/devices/?limit=1",
-              display: false,
-              total: 0
-            },
-          ]
-        },
-        {
-          title: 'IPAM',
-          items: [
-            {
-              title: 'VRFs',
-              subtitle: 'Virtual routing and forwarding tables',
-              endpoint: "/api/ipam/vrfs/?limit=1",
-              display: false,
-              total: 0
-            },
-            {
-              title: 'IP Addresses',
-              subtitle: 'Individual IPv4 and IPv6 addresses',
-              endpoint: "/api/ipam/ip-addresses/?limit=1",
-              display: false,
-              link: "/ipam/ip-addresses",
-              total: 0
-            },
-          ]
-        },
-        {
-          title: 'Circuits',
-          items: [
-            {
-              title: 'Providers',
-              subtitle: 'Organizations which provide circuit connectivity',
-              endpoint: '/api/circuits/providers/?limit=1',
-              display: false,
-              total: 0
-            },
-            {
-              title: 'Circuits',
-              subtitle: 'Communication links for Internet transit, peering, and other services',
-              endpoint: '/api/circuits/circuits/?limit=1',
-              display: false,
-              total: 0
-            },
-          ]
-        }
-      ],
+      cards: []
     }),
     computed : {
       isLoggedIn : function(){ return this.$store.getters.isLoggedIn}
     },
     created() {
+      this.cards = JSON.parse(JSON.stringify(this.$store.state.nautobot_data))
       function waitForCount(endpoint, card, item) {
-        axios.get(endpoint)
+        axios.get(endpoint + "?limit=1")
         .then((response) => {
               // Success
               console.log(response);
