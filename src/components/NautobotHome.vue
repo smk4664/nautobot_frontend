@@ -51,7 +51,7 @@
               subtitle: 'Geographic locations',
               endpoint: "/api/dcim/sites/?limit=1",
               display: false,
-              link: "/sites",
+              link: "/dcim/sites",
               total: 0
             },
             {
@@ -97,7 +97,7 @@
               subtitle: 'Individual IPv4 and IPv6 addresses',
               endpoint: "/api/ipam/ip-addresses/?limit=1",
               display: false,
-              link: "/ip-addresses",
+              link: "/ipam/ip-addresses",
               total: 0
             },
           ]

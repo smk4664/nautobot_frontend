@@ -20,6 +20,7 @@
       :server-items-length="count"
       :loading="loading"
       app
+      @click:row="handleClick"
     ></v-data-table>
   </v-card>
 </template>
@@ -114,12 +115,25 @@
       save(){
         localStorage.setItem(this.model + ':headers', JSON.stringify(this.headersSelected))
         alert('Table format saved')
-      }
+      },
+      handleClick(row) {
+        // or just do something with your current clicked row item data
+        console.log(row)
+        if (typeof(row.slug) != 'undefined' && row.slug != null){
+          console.log(row.slug)
+          this.$router.push(this.$router.currentRoute.path + '/' + row.slug)
+        } else {
+          console.log(row.id)
+          this.$router.push(this.$router.currentRoute.path + '/' + row.id)
+        }
+        
+      },
     },
     //this will trigger in the onReady State
     mounted() {
       this.readDataFromAPI();
       this.populateHeaders();
+      console.log(this.$router.currentRoute.path)
     },
   };
 </script>

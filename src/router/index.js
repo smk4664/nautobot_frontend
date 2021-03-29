@@ -5,6 +5,7 @@ import store from '../store/index.js'
 import Login from '../components/Login.vue'
 import Sites from '../views/Sites.vue'
 import IPAddresses from '../views/IPAddresses.vue'
+import SiteDetail from '../views/SiteDetail.vue'
 
 Vue.use(VueRouter)
 
@@ -28,12 +29,17 @@ const routes = [
     component: Login
   },
   {
-    path: '/sites',
+    path: '/dcim/sites',
     name: 'Sites',
     component: Sites
   },
   {
-    path: '/ip-addresses',
+    path: '/dcim/sites/:slug',
+    name: 'sitedetail',
+    component: SiteDetail
+  },
+  {
+    path: '/ipam/ip-addresses',
     name: 'IPAddresses',
     component: IPAddresses
   },

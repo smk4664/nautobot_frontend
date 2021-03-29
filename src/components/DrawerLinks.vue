@@ -44,7 +44,7 @@
               subtitle: 'Geographic locations',
               endpoint: "/api/dcim/sites/?limit=1",
               display: false,
-              link: "/sites",
+              link: "/dcim/sites",
               total: 0
             },
             {
@@ -93,7 +93,7 @@
               endpoint: "/api/ipam/ip-addresses/?limit=1",
               display: false,
               total: 0,
-              link: "/ip-addresses"
+              link: "/ipam/ip-addresses"
             },
           ]
         },
