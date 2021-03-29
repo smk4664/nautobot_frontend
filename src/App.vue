@@ -1,32 +1,15 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="nav"
+    <NavBar/>
+    <v-navigation-drawer
+    app 
+    clipped 
+    flat 
+    color="nav"
+    expand-on-hover
     >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Nautobot Logo"
-          class="shrink mr-2"
-          contain
-          src="./assets/nautobot_logo.png"
-          transition="scale-transition"
-          width="150"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-        class="nav_text--text"
-      >
-        <v-icon>mdi-login</v-icon>
-        <span class="mr-2">Log in</span>
-      </v-btn>
-    </v-app-bar>
+    <DrawerLinks/>
+    </v-navigation-drawer>
 
     <v-main>
       <router-view></router-view>
@@ -36,7 +19,7 @@
       app
       color="nav"
     >
-      <span class="footer--text">version 1.0.0.b2</span>
+      <span v-if="nautobotVersion" class="footer--text">v{{ nautobotVersion }}</span>
       <v-spacer></v-spacer>
       <span class="footer--text">{{ new Date().toLocaleString() }}</span>
       <v-spacer></v-spacer>
@@ -93,7 +76,9 @@
 </template>
 
 <script>
-// import HelloWorld from './components/HelloWorld';
+import axios from 'axios';
+import NavBar from './components/NavBar';
+import DrawerLinks from './components/DrawerLinks'
 
 export default {
   name: 'App',
@@ -101,8 +86,20 @@ export default {
     toggle_dark_mode: function() {
       this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
       localStorage.setItem("dark_theme", this.$vuetify.theme.dark.toString());
+    },
+    logout: function () {
+      this.$store.dispatch('logout')
+      .then(() => {
+        this.$router.push('/login')
+      })
     }
   },
+  created() {
+    axios.get("/api/status")
+      .then(resp => {
+        this.nautobotVersion = resp.data['nautobot-version']
+      })
+  }, 
   mounted() {
     const theme = localStorage.getItem("dark_theme");
     if (theme) {
@@ -122,13 +119,16 @@ export default {
       );
     }
   },
-/**
-  components: {
-    HelloWorld,
+  computed : {
+      isLoggedIn : function(){ return this.$store.getters.isLoggedIn},
   },
-  */
+  
+  components: {
+    NavBar,
+    DrawerLinks
+  },
   data: () => ({
-    //
+    nautobotVersion: null
   }),
 };
 </script>
