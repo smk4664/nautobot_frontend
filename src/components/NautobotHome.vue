@@ -14,7 +14,7 @@
           <v-divider></v-divider>
           <v-list two-line>
             <template v-for="item in card.items">
-              <v-list-item :key="item.title" :to=item.link link>
+              <v-list-item :key="item.title" :to=item.link link v-if=item.on_home>
                 <v-list-item-content class="text-left">
                   <v-list-item-title>{{ item.title }}</v-list-item-title>
                   <v-list-item-subtitle>{{ item.subtitle }}</v-list-item-subtitle>
@@ -85,7 +85,7 @@
       if (this.$store.getters.isLoggedIn) {
         for ( var card in this.cards) {
           for (var item in this.cards[card]['items']) {
-            if (this.cards[card]['items'][item]['endpoint']) {
+            if (this.cards[card]['items'][item]['on_home']) {
               var vm=this;
               waitForCount(this.cards[card]['items'][item]['endpoint'], card, item)
             }

@@ -28,14 +28,6 @@
   import axios from "axios";
   export default {
     name: "DataTable",
-    props: {
-      api_endpoint: {
-        type: String
-      },
-      model: {
-        type: String
-      }
-    },
     data () {
       return {
         page: 1,
@@ -46,6 +38,8 @@
         options: {},
         headers: [],
         headersSelected: [],
+        api_endpoint: null,
+        model: null
       };
     },
     //this one will populate new data set when user changes current page. 
@@ -97,7 +91,9 @@
               }
             }
             for (var item in response.data.results) {
-              this.results[item]['status_label'] = response.data.results[item].status.label
+              if (typeof response.data.results[item].status != 'undefined') {
+                this.results[item]['status_label'] = response.data.results[item].status.label
+              }
               for (var custom_field in response.data.results[item].custom_fields) {
                 this.results[item][custom_field] = response.data.results[item].custom_fields[custom_field]
               }
@@ -131,9 +127,12 @@
     },
     //this will trigger in the onReady State
     mounted() {
+      var temp = this.$route.path.substring(1)
+      this.model = temp.replace("/", ":")
+      this.api_endpoint = "/api" + this.$route.path
       this.readDataFromAPI();
       this.populateHeaders();
-      console.log(this.$router.currentRoute.path)
+      console.log(this.$route.path)
     },
   };
 </script>

@@ -19,14 +19,17 @@ export default new Vuex.Store({
             endpoint: "/api/dcim/sites/",
             link: "/dcim/sites",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
           {
             title: 'Tenants',
             subtitle: 'Customers or departments',
             endpoint: "/api/tenancy/tenants/",
+            link: "/tenancy/tenants",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
         ]
       },
@@ -38,16 +41,56 @@ export default new Vuex.Store({
             title: 'Racks',
             subtitle: 'Equipment racks, optionally organized by group',
             endpoint: "/api/dcim/racks/",
+            link: "/dcim/racks",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
+          },
+          {
+            title: 'Device Types',
+            subtitle: "Physical hardware models by manufacturer",
+            endpoint: "/api/dcim/device-types",
+            link: "/dcim/device-types",
+            total: 0,
+            display: false,
+            on_home: true
           },
           {
             title: 'Devices',
             subtitle: 'Rack-mounted network equipment, servers, and other devices',
             endpoint: "/api/dcim/devices/",
+            link: "/dcim/devices",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
+          {
+            title: 'Cables',
+            subtitle: 'Cable Connections',
+            endpoint: "/api/dcim/cables/",
+            link: "/dcim/cables",
+            total: 0,
+            display: false,
+            on_home: true
+          },
+          {
+            title: 'Interfaces',
+            subtitle: 'Interface Connections',
+            endpoint: "/api/dcim/interfaces/",
+            link: "/dcim/interfaces",
+            total: 0,
+            display: false,
+            on_home: true
+          },
+          {
+            title: 'Console',
+            subtitle: 'Console Connections',
+            endpoint: "/api/dcim/console-connections/",
+            link: "/dcim/console-connections",
+            total: 0,
+            display: false,
+            on_home: true
+          }
         ]
       },
       {
@@ -58,8 +101,10 @@ export default new Vuex.Store({
             title: 'VRFs',
             subtitle: 'Virtual routing and forwarding tables',
             endpoint: "/api/ipam/vrfs/",
+            link: "/api/vrfs",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
           {
             title: 'IP Addresses',
@@ -67,7 +112,8 @@ export default new Vuex.Store({
             endpoint: "/api/ipam/ip-addresses/",
             link: "/ipam/ip-addresses",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
         ]
       },
@@ -79,19 +125,57 @@ export default new Vuex.Store({
             title: 'Providers',
             subtitle: 'Organizations which provide circuit connectivity',
             endpoint: '/api/circuits/providers/',
+            link: "/circuits/providers",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
           },
           {
             title: 'Circuits',
             subtitle: 'Communication links for Internet transit, peering, and other services',
             endpoint: '/api/circuits/circuits/',
+            link: "/circuits/circuits",
             total: 0,
-            display: false
+            display: false,
+            on_home: true
+          },
+          {
+            title: "Circuit Types",
+            subtitle: "Types of circuits available",
+            endpoint: "/api/circuits/circuit-types/",
+            link: "/circuits/circuit-types",
+            total: 0,
+            display: false,
+            on_home: false
+          }
+        ]
+      },
+      {
+        title: 'Power',
+        icon: 'mdi-power-socket',
+        items: [
+          {
+            title: 'Power Feeds',
+            subtitle: 'Electrical circuits delivering power from panels',
+            endpoint: '/api/dcim/power-feeds/',
+            link: "/dcim/power-feeds",
+            total: 0,
+            display: false,
+            on_home: true
+          },
+          {
+            title: 'Power Panels',
+            subtitle: 'Electrical panels receiving utility power',
+            endpoint: '/api/dcim/power-panels/',
+            link: "/dcim/power-panels",
+            total: 0,
+            display: false,
+            on_home: true
           },
         ]
       }
-    ]
+    ],
+    nautobot_statuses: null
   },
   mutations: {
     auth_request(state){
@@ -108,6 +192,9 @@ export default new Vuex.Store({
       state.status = ''
       state.token = ''
     },
+    setStatuses(state, data){
+      state.nautobot_statuses = data
+    }
   },
   actions: {
     login({commit}, user){
@@ -146,6 +233,12 @@ export default new Vuex.Store({
           reject(err)
         })
       })
+    },
+    getStatuses({commit}){
+      axios.get('/api/extras/statuses/')
+      .then(res => {
+        commit('setStatuses', res.data.results)
+      })
     }
   },
   modules: {
@@ -153,5 +246,6 @@ export default new Vuex.Store({
   getters : {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    nautobotStatuses: state => state.nautobot_statuses,
   }
 })

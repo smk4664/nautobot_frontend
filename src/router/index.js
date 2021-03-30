@@ -3,8 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import store from '../store/index.js'
 import Login from '../components/Login.vue'
-import Sites from '../views/Sites.vue'
-import IPAddresses from '../views/IPAddresses.vue'
+import DataTable from '../components/DataTable.vue'
 import SiteDetail from '../views/SiteDetail.vue'
 
 Vue.use(VueRouter)
@@ -31,7 +30,7 @@ const routes = [
   {
     path: '/dcim/sites',
     name: 'Sites',
-    component: Sites
+    component: DataTable
   },
   {
     path: '/dcim/sites/:slug',
@@ -41,7 +40,17 @@ const routes = [
   {
     path: '/ipam/ip-addresses',
     name: 'IPAddresses',
-    component: IPAddresses
+    component: DataTable
+  },
+  {
+    path: '/circuits/providers',
+    name: 'Providers',
+    component: DataTable
+  },
+  {
+    path: '/circuits/circuits',
+    name: 'Circuits',
+    component: DataTable
   },
 ]
 
